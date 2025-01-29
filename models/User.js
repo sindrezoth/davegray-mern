@@ -1,26 +1,22 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mognoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
-  },
-  title: {
+const userSchema = new mongoose.Schema({
+  username: {
     type: String,
     required: true
   },
-  text: {
+  password: {
     type: String,
     required: true
   },
-  completed: {
+  roles: [{
+    type: String,
+    default: 'Employee'
+  }],
+  active: {
     type: Boolean,
     default: true
   },
-  {
-    timestamps: true
-  }
 });
 
-module.exports = mongoose.model('Note', userSchema);
+module.exports = mongoose.model('User', userSchema);
