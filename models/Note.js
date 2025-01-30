@@ -5,7 +5,7 @@ const noteSchema = new mongoose.Schema(
   {
     note: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
       ref: 'note'
     },
     title: {
@@ -19,6 +19,10 @@ const noteSchema = new mongoose.Schema(
     completed: {
       type: Boolean,
       default: true
+    },
+    author: {
+      type: String,
+      required: true
     }
   },
   {
