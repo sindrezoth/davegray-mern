@@ -15,15 +15,15 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const createNewUser = asyncHandler(async (req, res) => {
   const { username, password, roles } = req.body;
 
-  if(!username || !password || !Array.isArray(roles) || !roles.length) {
-    return res.status(400).json({ message: 'All fields are required.' });
+  if(!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required.' });
   }
 
   const duplicate = await User.findOne({ username }).lean().exec();
   if(duplicate) return res.status(409).json({ message: 'Duplicate username.' });
 
   const hashedPwd = await bcrypt.hash(password, 10);
-  const userObject = { username, "password": hashedPwd, roles };
+  const userObject = { username, "password": hashedPwd, roles: roles || ['Employee'] };
 
   const user = await User.create(userObject);
 
