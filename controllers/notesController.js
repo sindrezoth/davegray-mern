@@ -13,13 +13,13 @@ const getAllNotes = asyncHandler(async (req, res) => {
 });
 
 const createNewNote = asyncHandler(async (req, res) => {
-  const { title, text, author } = req.body;
+  const { title, text, author, completed } = req.body;
 
   if(!title || !text || !author) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
-  const noteObject = { title, text, author, completed: false };
+  const noteObject = { title, text, author: author._id, completed};
 
   const note = await Note.create(noteObject);
 
@@ -43,7 +43,7 @@ const updateNote = asyncHandler(async (req, res) => {
 
   note.title = title || note.title;
   note.text = text || note.text;
-  note.completed = completed || note.completed;
+  note.completed = completed !== undefined ? completed : note.completed;
   note.author = author || note.author;
 
   const updatedNote = await note.save();
